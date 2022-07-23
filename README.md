@@ -5,11 +5,17 @@
 npm install
 ```
 
-## DB migrate
-
-
-
-### Run
+## Install sequelize CLI (if not installed)
 ```
-node server.js
+npm install -g sequelize-cli
+```
+## Connect your local database by configuring sequelize\config\config.json file
+
+## Run this command inside sequelize (cd sequelize) folder/directoty to create database
+```
+sequelize db:create
+```
+###  Then come back to the project directory  (cd ../) and run nodemon command to start server
+```
+nodemon server.js
 ```
