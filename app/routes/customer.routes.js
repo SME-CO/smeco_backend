@@ -15,6 +15,8 @@ module.exports = app => {
 
   router.delete("/:id", customerController.delete);
 
+  router.post("/sendOTP", customerController.validate('sendOTP'), customerController.sendOTP);
+
   app.use('/api/customers', router);
 
 };
