@@ -1,5 +1,5 @@
 const CustomerService = require("../services/customer.service")
-const { body } = require('express-validator/check')
+const { body } = require('express-validator')
 const { validationResult } = require('express-validator/check');
 const ServiceLayerError = require("../services/Exceptions/service.exceptions");
 
@@ -10,15 +10,24 @@ exports.validate = (method) => {
         case 'create': {
             return [
                 body('firstName').isString().notEmpty(),
-                body('lastName').isString().notEmpty(),
-                body('email', 'Invalid email').exists().isEmail().notEmpty()
+                body('lastName'),
+                body('mobile').isString().notEmpty(),
+                body('nic'),
+                body('otp'),
+                body('email')
             ]
         }
 
         case 'update': {
             return [
                 body('firstName').isString().notEmpty(),
-                body('lastName').isString().notEmpty()
+                body('lastName').isString()
+            ]
+        }
+
+        case 'sendOTP': {
+            return [
+                body('mobile').isString().notEmpty(),
             ]
         }
     }
@@ -93,6 +102,26 @@ exports.delete = async (req, res) => {
         await CustomerService.delete(req.params.id);
 
         res.status(200).json({ message: "Successfully Deleted" });
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
+exports.sendOTP = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            res.status(400).json({ errors: errors.array() });
+            return;
+        }
+
+        const validatedRequest = req.body
+
+        await CustomerService.sendOTP(validatedRequest);
+
+        res.status(200);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
         res.status(500).json({ message: error.message })

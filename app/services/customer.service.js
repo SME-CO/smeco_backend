@@ -1,22 +1,87 @@
-const { sequelize, Customer } = require('../../sequelize/models');
+const { sequelize, Customer, VerifiedCustomerNumbers } = require('../../sequelize/models');
 const ServiceLayerError = require('../services/Exceptions/service.exceptions.js')
+const smsAPI = require('../external_services/smsAPI');
 
 const CustomerService = function () { };
+
+CustomerService.sendOTP = async (validatedRequest) => {
+    try {
+
+        const existingNumber = await VerifiedCustomerNumbers.findOne(
+            { where: { mobile: validatedRequest.mobile } }
+        );
+
+        let otp = null;
+
+        if (existingNumber) {
+            if (existingNumber.isVerified) {
+                throw new ServiceLayerError("OTP Already verified");
+            } else {
+                otp = Math.floor(100000 + Math.random() * 900000)
+                // await smsAPI.sendSMS(validatedRequest.mobile, `WELCOME TO SMECO                 Your OTP is ${otp}`);
+                console.log(otp);
+
+                existingNumber.set({
+                    otp: otp,
+                    timestamp: Date.now()
+                });
+
+                await existingNumber.save();
+            }
+        } else {
+
+            otp = Math.floor(100000 + Math.random() * 900000)
+
+            await VerifiedCustomerNumbers.create({
+                merchant_id: 1,
+                mobile: validatedRequest.mobile,
+                isVerified: false,
+                otp: otp,
+                timestamp: Date.now()
+            })
+
+            // await smsAPI.sendSMS(validatedRequest.mobile, `WELCOME TO SMECO                        Your OTP is ${otp}`);
+        }
+    } catch (err) {
+        throw err
+    }
+}
 
 CustomerService.create = async (validatedRequest) => {
     try {
 
         const customerExists = await Customer.findOne(
-            { where: { email: validatedRequest.email } }
+            { where: { mobile: validatedRequest.mobile } }
         );
 
         if (customerExists) {
-            throw new ServiceLayerError("This email already exists")
+            throw new ServiceLayerError("This customer already exists");
+        }
+
+        const existingNumber = await VerifiedCustomerNumbers.findOne(
+            { where: { mobile: validatedRequest.mobile } }
+        );
+
+        if (!existingNumber) {
+            throw new ServiceLayerError("OTP not verified");
+        }
+
+        if (validatedRequest.otp === existingNumber.otp) {
+
+            existingNumber.set({
+                isVerified: true,
+            });
+
+            await existingNumber.save();
+        } else {
+            throw new ServiceLayerError("OTP Is Incorrect");
         }
 
         const customer = await Customer.create({
             firstName: validatedRequest.firstName,
             lastName: validatedRequest.lastName,
+            mobile: validatedRequest.mobile,
+            nic: validatedRequest.nic,
             email: validatedRequest.email
         });
 
