@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./sequelize/models");
+require('dotenv').config();
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/customer.routes.js")(app);
+require("./app/routes/customerUser.routes")(app);
 
 
 // set port, listen for requests
