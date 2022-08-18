@@ -1,4 +1,4 @@
-const CustomerService = require("../services/customer.service")
+const CustomerUserService= require("../services/customerUser.service")
 const { body } = require('express-validator')
 const { validationResult } = require('express-validator/check');
 const ServiceLayerError = require("../services/Exceptions/service.exceptions");
@@ -9,19 +9,18 @@ exports.validate = (method) => {
     switch (method) {
         case 'create': {
             return [
-                body('firstName').isString().notEmpty(),
+                body('firstName'),
                 body('lastName'),
-                body('mobile').isString().notEmpty(),
-                body('nic'),
-                body('otp'),
-                body('email')
+                body('email'),
+                body('password'),
+                body('mobile')
             ]
         }
 
-        case 'update': {
+        case 'login': {
             return [
-                body('firstName').isString().notEmpty(),
-                body('lastName').isString()
+                body('email'),
+                body('password'),
             ]
         }
 
@@ -45,9 +44,29 @@ exports.create = async (req, res) => {
 
         const validatedRequest = req.body
 
-        const customer = await CustomerService.create(validatedRequest);
+        const customer = await CustomerUserService.create(validatedRequest);
 
         res.send(customer);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
+exports.login = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            res.status(400).json({ errors: errors.array() });
+            return;
+        }
+
+        const validatedRequest = req.body
+
+        const token = await CustomerUserService.login(validatedRequest);
+
+        res.send({token});
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
         res.status(500).json({ message: error.message })
@@ -57,7 +76,7 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
     try {
 
-        const customers = await CustomerService.findAll();
+        // const customers = await CustomerUserService.findAll();
 
         res.send(customers);
     } catch (error) {
@@ -68,7 +87,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const customer = await CustomerService.findById(req.params.id)
+        const customer = await CustomerUserService.findById(req.params.id)
         res.send(customer);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
@@ -87,7 +106,7 @@ exports.update = async (req, res) => {
 
         const validatedRequest = req.body
 
-        const customer = await CustomerService.update(req.params.id, validatedRequest);
+        // const customer = await CustomerUserService.update(req.params.id, validatedRequest);
 
         res.send(customer);
     } catch (error) {
@@ -99,7 +118,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
 
-        await CustomerService.delete(req.params.id);
+        // await CustomerUserService.delete(req.params.id);
 
         res.status(200).json({ message: "Successfully Deleted" });
     } catch (error) {
@@ -119,7 +138,7 @@ exports.sendOTP = async (req, res) => {
 
         const validatedRequest = req.body
 
-        await CustomerService.sendOTP(validatedRequest);
+        // await CustomerUserService.sendOTP(validatedRequest);
 
         res.status(200);
     } catch (error) {
