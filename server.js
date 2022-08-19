@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/customer.routes.js")(app);
+require("./app/routes/merchant.routes.js")(app);
 require("./app/routes/customerUser.routes")(app);
 
 
