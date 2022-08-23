@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./sequelize/models");
+require('dotenv').config();
 
 const app = express();
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:3002"]
+  origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5000"]
 };
 
 app.use(cors(corsOptions));
@@ -24,6 +25,8 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/customer.routes.js")(app);
+require("./app/routes/merchant.routes.js")(app);
+require("./app/routes/customerUser.routes")(app);
 
 require("./app/routes/customerUser.routes")(app);
 

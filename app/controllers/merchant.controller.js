@@ -1,37 +1,48 @@
-const CustomerService = require("../services/customer.service")
-const { body } = require('express-validator')
+const MerchantService = require("../services/merchant.service")
+const { body } = require('express-validator/check')
 const { validationResult } = require('express-validator/check');
 const ServiceLayerError = require("../services/Exceptions/service.exceptions");
-
-
+const jwt = require('jsonwebtoken');
 
 exports.validate = (method) => {
     switch (method) {
         case 'create': {
             return [
-                body('firstName').isString().notEmpty(),
+                body('firstName'),
                 body('lastName'),
-                body('mobile').isString().notEmpty(),
-                body('nic'),
-                body('otp'),
-                body('email')
+                body('shopName'),
+                body('shopMobile'),
+                body('address'),
+                body('password'),
+                body('email'),
+                body('shopAddress'),
+                body('phoneNumber')
             ]
         }
 
         case 'update': {
             return [
-                body('firstName').isString().notEmpty(),
-                body('lastName').isString()
+                body('firstName'),
+                body('lastName'),
+                body('shopName'),
+                body('shopMobile'),
+                body('address'),
+                body('password'),
+                body('email'),
+                body('shopAddress'),
+                body('phoneNumber')
             ]
         }
 
-        case 'sendOTP': {
+        case 'login': {
             return [
-                body('mobile').isString().notEmpty(),
+                body('email'),
+                body('password'),
             ]
         }
     }
 }
+
 
 
 exports.create = async (req, res) => {
@@ -45,21 +56,22 @@ exports.create = async (req, res) => {
 
         const validatedRequest = req.body
 
-        const customer = await CustomerService.create(validatedRequest);
+        const merchant = await MerchantService.create(validatedRequest);
 
-        res.send(customer);
+        res.send(merchant);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
         res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
+
 exports.getAll = async (req, res) => {
     try {
 
-        const customers = await CustomerService.findAll();
+        const merchants = await MerchantService.findAll();
 
-        res.send(customers);
+        res.send(merchants);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
         res.status(500).json({ message: error.message })
@@ -68,8 +80,8 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const customer = await CustomerService.findById(req.params.id)
-        res.send(customer);
+        const merchant = await MerchantService.findById(req.params.id)
+        res.send(merchant);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
         res.status(500).json({ message: error.message })
@@ -87,9 +99,9 @@ exports.update = async (req, res) => {
 
         const validatedRequest = req.body
 
-        const customer = await CustomerService.update(req.params.id, validatedRequest);
+        const merchant = await MerchantService.update(req.params.id, validatedRequest);
 
-        res.send(customer);
+        res.send(merchant);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
         res.status(500).json({ message: error.message })
@@ -99,7 +111,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
 
-        await CustomerService.delete(req.params.id);
+        await MerchantService.delete(req.params.id);
 
         res.status(200).json({ message: "Successfully Deleted" });
     } catch (error) {
@@ -108,7 +120,7 @@ exports.delete = async (req, res) => {
     }
 };
 
-exports.sendOTP = async (req, res) => {
+exports.login = async (req, res) => {
     try {
         const errors = validationResult(req);
 
@@ -119,12 +131,28 @@ exports.sendOTP = async (req, res) => {
 
         const validatedRequest = req.body
 
-        await CustomerService.sendOTP(validatedRequest);
+        if (validatedRequest.email == 'admin@smeco.com') {
+            if (validatedRequest.password == 'admin@123') {
+                let plan_admin_object = {
+                    'name': 'smeco_admin',
+                    'email': 'admin@smeco.com'
+                }
 
-        res.status(200).json({ message: "OTP sent successfully" });
+                let responseData = {
+                    'token': jwt.sign(plan_admin_object, process.env.SECRET),
+                    'user': { firstName: "Smeco Admin" },
+                    'role': 'admin'
+                }
+                res.send(responseData);
+                return;
+            }
+        }
+
+        const responseData = await MerchantService.login(validatedRequest);
+
+        res.send(responseData);
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
         res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
-
