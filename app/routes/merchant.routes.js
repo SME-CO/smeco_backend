@@ -14,6 +14,8 @@ module.exports = app => {
     router.put("/:id", merchantController.validate('update'), merchantController.update);
   
     router.delete("/:id", merchantController.delete);
+
+    router.post("/login", merchantController.validate('login'), merchantController.login);
   
     app.use('/api/merchants', router);
   
