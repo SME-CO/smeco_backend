@@ -1,4 +1,4 @@
-const CustomerUserService= require("../services/customerUser.service")
+const CustomerUserService = require("../services/customerUser.service")
 const { body } = require('express-validator')
 const { validationResult } = require('express-validator/check');
 const ServiceLayerError = require("../services/Exceptions/service.exceptions");
@@ -48,8 +48,8 @@ exports.create = async (req, res) => {
 
         res.send(customer);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -64,12 +64,12 @@ exports.login = async (req, res) => {
 
         const validatedRequest = req.body
 
-        const token = await CustomerUserService.login(validatedRequest);
+        const responseData = await CustomerUserService.login(validatedRequest);
 
-        res.send({token});
+        res.send(responseData);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
