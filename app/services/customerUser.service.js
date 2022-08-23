@@ -9,12 +9,20 @@ const CustomerUserService = function () { };
 CustomerUserService.create = async (validatedRequest) => {
     try {
 
-        const customerExists = await CustomerUser.findOne(
+        const customerEmailExists = await CustomerUser.findOne(
             { where: { email: validatedRequest.email } }
         );
 
-        if (customerExists) {
-            throw new ServiceLayerError("This customer already exists");
+        if (customerEmailExists) {
+            throw new ServiceLayerError("This Email already exists");
+        }
+
+        const customerMobileExists = await CustomerUser.findOne(
+            { where: { email: validatedRequest.email } }
+        );
+
+        if (customerMobileExists) {
+            throw new ServiceLayerError("This Mobile Number already exists");
         }
 
         // const existingNumber = await VerifiedCustomerNumbers.findOne(
@@ -75,10 +83,14 @@ CustomerUserService.login = async (validatedRequest) => {
                 email: customer.email
             }
 
-            token = jwt.sign(plan_customer_object, process.env.SECRET);
-            return token;
+            let response = {
+                'token' : token = jwt.sign(plan_customer_object, process.env.SECRET),
+                'user' : customer
+            } 
+
+            return response;
         } else {
-            throw new ServiceLayerError("Password Mismatch");
+            throw new ServiceLayerError("Entered password is incorrect");
         }
 
     } catch (error) {

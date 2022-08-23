@@ -49,8 +49,8 @@ exports.create = async (req, res) => {
 
         res.send(customer);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -121,10 +121,10 @@ exports.sendOTP = async (req, res) => {
 
         await CustomerService.sendOTP(validatedRequest);
 
-        res.status(200);
+        res.status(200).json({ message: "OTP sent successfully" });
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
