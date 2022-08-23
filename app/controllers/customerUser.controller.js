@@ -76,7 +76,7 @@ exports.login = async (req, res) => {
 exports.getAll = async (req, res) => {
     try {
 
-        // const customers = await CustomerUserService.findAll();
+        const customers = await CustomerUserService.findAll();
 
         res.send(customers);
     } catch (error) {

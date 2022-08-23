@@ -16,13 +16,12 @@ module.exports = (sequelize, DataTypes) => {
   Merchant.init({
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
+    shopName: DataTypes.STRING,
+    shopMobile: DataTypes.STRING,
+    shopAddress: DataTypes.STRING,
     email: DataTypes.STRING,
-    address: DataTypes.STRING,
-    phoneNumber: DataTypes.INTEGER
-
-
-    // name: DataTypes.STRING,
-    // age: DataTypes.INTEGER
+    phoneNumber: DataTypes.INTEGER,
+    password: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Merchant',

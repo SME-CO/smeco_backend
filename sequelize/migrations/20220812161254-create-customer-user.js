@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstName: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       lastName: {
         type: Sequelize.STRING

@@ -11,7 +11,7 @@ CustomerUserService.create = async (validatedRequest) => {
 
         const customerEmailExists = await CustomerUser.findOne(
             { where: { email: validatedRequest.email } }
-        );
+        ); 
 
         if (customerEmailExists) {
             throw new ServiceLayerError("This Email already exists");
@@ -110,6 +110,16 @@ CustomerUserService.findById = async (id) => {
         return customer;
     } catch (error) {
         throw error;
+    }
+}
+
+CustomerUserService.findAll = async () => {
+    try {
+
+        const users = await CustomerUser.findAll();
+        return users;
+    } catch (err) {
+        throw err
     }
 }
 
