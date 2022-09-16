@@ -14,6 +14,9 @@ module.exports = {
       merchantId: {
         type: Sequelize.INTEGER
       },
+      shopName: {
+        type: Sequelize.STRING
+      },
       image: {
         type: Sequelize.STRING
       },
@@ -24,6 +27,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       offers: {
+        type: Sequelize.STRING
+      },
+      description: {
         type: Sequelize.STRING
       },
       createdAt: {
