@@ -23,6 +23,9 @@ module.exports = {
       shopAddress: {
         type: Sequelize.STRING
       },
+      shopImage: {
+        type: Sequelize.STRING
+      },
       email: {
         type: Sequelize.STRING
       },
