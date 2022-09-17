@@ -18,7 +18,7 @@ CustomerService.sendOTP = async (validatedRequest) => {
                 throw new ServiceLayerError("OTP Already verified");
             } else {
                 otp = Math.floor(100000 + Math.random() * 900000)
-                // await smsAPI.sendSMS(validatedRequest.mobile, `WELCOME TO SMECO                 Your OTP is ${otp}`);
+                await smsAPI.sendSMS(validatedRequest.mobile, `WELCOME TO SMECO                 Your OTP is ${otp}`);
                 console.log(otp);
 
                 existingNumber.set({
@@ -40,7 +40,7 @@ CustomerService.sendOTP = async (validatedRequest) => {
                 timestamp: Date.now()
             })
 
-            // await smsAPI.sendSMS(validatedRequest.mobile, `WELCOME TO SMECO                        Your OTP is ${otp}`);
+            await smsAPI.sendSMS(validatedRequest.mobile, `WELCOME TO SMECO                        Your OTP is ${otp}`);
         }
     } catch (err) {
         throw err
