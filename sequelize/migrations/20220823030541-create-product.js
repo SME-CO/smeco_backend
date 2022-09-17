@@ -18,6 +18,9 @@ module.exports = {
           key: 'id'
         }
       },
+      shopName: {
+        type: Sequelize.STRING
+      },
       image: {
         type: Sequelize.STRING
       },
@@ -28,6 +31,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       offers: {
+        type: Sequelize.STRING
+      },
+      description: {
         type: Sequelize.STRING
       },
       createdAt: {
