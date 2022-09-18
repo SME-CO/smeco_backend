@@ -11,6 +11,7 @@ FaqService.create = async (validatedRequest) => {
         const FaqExists = await Faq.findOne(
             { where: { message: validatedRequest.message } }
         );
+        
 
         if (FaqExists) {
             throw new ServiceLayerError("This question already exists");
