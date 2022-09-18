@@ -74,6 +74,16 @@ exports.getById = async (req, res) => {
     }
 };
 
+exports.getByCategory = async (req, res) => {
+    try {
+        const product = await ProductService.findByCategory(req.params.category)
+        res.send(product);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
 exports.update = async (req, res) => {
     try {
         const errors = validationResult(req);
