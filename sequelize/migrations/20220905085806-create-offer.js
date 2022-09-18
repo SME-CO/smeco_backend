@@ -17,6 +17,9 @@ module.exports = {
       merchantID: {
         type: Sequelize.INTEGER
       },
+      offerId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
