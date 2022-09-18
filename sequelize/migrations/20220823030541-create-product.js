@@ -27,14 +27,23 @@ module.exports = {
       price: {
         type: Sequelize.STRING
       },
-      catagory: {
+      category: {
         type: Sequelize.STRING
+      },
+      quantity: {
+        type: Sequelize.INTEGER
       },
       offers: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
+      },
+      isDiscount: {
+        type: Sequelize.BOOLEAN
+      },
+      discountPercentage: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
