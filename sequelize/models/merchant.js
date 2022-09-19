@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Merchant.hasMany(models.Product, { as: 'products' })
     }
   }
   Merchant.init({
@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     shopName: DataTypes.STRING,
     shopMobile: DataTypes.STRING,
     shopAddress: DataTypes.STRING,
+    shopImage: DataTypes.STRING,
     email: DataTypes.STRING,
     phoneNumber: DataTypes.INTEGER,
     password: DataTypes.STRING

@@ -53,6 +53,19 @@ ProductService.findById = async (id) => {
     }
 }
 
+ProductService.findByCategory = async (category) => {
+    try {
+
+        const products = await Product.findAll(
+            { where: { catagory: category } }
+        );
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
 ProductService.update = async (id, validatedRequest) => {
     try {
 

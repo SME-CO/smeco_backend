@@ -1,38 +1,29 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Merchants', {
+    await queryInterface.createTable('Rewards', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      merchantId: {
+        type: Sequelize.INTEGER
+      },
+      name: {
         type: Sequelize.STRING
       },
-      lastName: {
-        type: Sequelize.STRING
+      startDate: {
+        type: Sequelize.DATE
       },
-      shopName: {
-        type: Sequelize.STRING
+      endDate: {
+        type: Sequelize.INTEGER
       },
-      shopMobile: {
-        type: Sequelize.STRING
+      rewardLimit: {
+        type: Sequelize.INTEGER
       },
-      shopAddress: {
-        type: Sequelize.STRING
-      },
-      shopImage: {
-        type: Sequelize.STRING
-      },
-      email: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      phoneNumber:{
+      rewardAmount: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -46,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Merchants');
+    await queryInterface.dropTable('Rewards');
   }
 };

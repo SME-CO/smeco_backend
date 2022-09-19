@@ -8,6 +8,8 @@ module.exports = app => {
     router.post("/", productController.validate('create'), productController.create);
   
     router.get("/", productController.getAll);
+
+    router.get("/categories/:category", productController.getByCategory);
   
     router.get("/:id", productController.getById);
   

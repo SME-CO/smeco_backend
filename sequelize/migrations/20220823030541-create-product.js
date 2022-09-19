@@ -12,7 +12,14 @@ module.exports = {
         type: Sequelize.STRING
       },
       merchantId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Merchants',
+          key: 'id'
+        }
+      },
+      shopName: {
+        type: Sequelize.STRING
       },
       image: {
         type: Sequelize.STRING
@@ -20,11 +27,23 @@ module.exports = {
       price: {
         type: Sequelize.STRING
       },
-      catagory: {
+      category: {
         type: Sequelize.STRING
+      },
+      quantity: {
+        type: Sequelize.INTEGER
       },
       offers: {
         type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      isDiscount: {
+        type: Sequelize.BOOLEAN
+      },
+      discountPercentage: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
