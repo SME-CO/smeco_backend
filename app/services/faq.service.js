@@ -31,4 +31,30 @@ FaqService.create = async (validatedRequest) => {
 }
 
 
+FaqService.findAll = async () => {
+    try {
+
+        const faq = await Faq.findAll();
+        return faq;
+    } catch (err) {
+        throw err
+    }
+}
+
+FaqService.findById = async (id) => {
+    try {
+
+        const faq = await Faq.findByPk(id);
+
+        if (!faq) {
+            throw new ServiceLayerError("Object Not Found");
+        }
+
+        return faq;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 module.exports = FaqService;
