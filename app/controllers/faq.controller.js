@@ -12,6 +12,14 @@ exports.validate = (method) => {
                 body('message')
             ]
         }
+
+        case 'view': {
+            return [
+                body('message')
+            ]
+        }
+
+        
     }
 }
 
@@ -36,6 +44,27 @@ exports.create = async (req, res) => {
     }
 };
 
+exports.getAll = async (req, res) => {
+    try {
+
+        const faq = await FaqService.findAll();
+
+        res.send(faq);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
+exports.getById = async (req, res) => {
+    try {
+        const faq = await FaqService.findById(req.params.id)
+        res.send(faq);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
 
 
 
