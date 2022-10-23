@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   BulkOffer.init({
     name: DataTypes.STRING,
-    price: DataTypes.INTEGER
+    price: DataTypes.INTEGER,
+    offerId: DataTypes.INTEGER,
+    merchantId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'BulkOffer',

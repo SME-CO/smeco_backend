@@ -11,8 +11,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      customerId:{
+        type:sequelize.INTEGER
+      },
       productid:{
-        type: sequelize.STRING
+        type: sequelize.INTEGER
       },
       description: {
         type: Sequelize.STRING

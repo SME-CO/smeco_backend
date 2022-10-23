@@ -7,11 +7,11 @@ module.exports = app => {
     // Create a new Customer
     router.post("/", reviewController.validate('create'), reviewController.create);
   
-    router.get("/", reviewController.getAll);
+    router.get("/product/:productId", reviewController.getAllByProduct);
   
     router.get("/:id", reviewController.getById);
   
-    router.put("/:id", reviewController.validate('update'), reviewController.update);
+    //router.put("/:id", reviewController.validate('update'), reviewController.update);
   
     router.delete("/:id", reviewController.delete);
   

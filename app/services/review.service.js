@@ -10,7 +10,7 @@ ReviewService.create = async (validatedRequest) => {
         
 
         const review = await Review.create({
-            priductid: validatedRequest,
+            //priductid: productId,
             description: validatedRequest.description,
             reting: validatedRequest.reting
             
@@ -24,10 +24,13 @@ ReviewService.create = async (validatedRequest) => {
     }
 }
 
-ReviewService.findAll = async () => {
+ReviewService.findAllByProduct = async (productId) => {
     try {
+         const reviews = await Review.findAll(
+            { where: { productid: productId } }
+         );
 
-        const reviews = await Review.findAll();
+        //const reviews = await Review.findAll(id);
         return reviews;
     } catch (err) {
         throw err

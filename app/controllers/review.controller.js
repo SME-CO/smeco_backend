@@ -9,23 +9,21 @@ exports.validate = (method) => {
     switch (method) {
         case 'create': {
             return [
-                body('productid').isString().notEmpty(),
-                body('description').isString().notEmpty(),
-                body('rating').isString().notEmpty()
+                body('customerId'),
+                body('productid'),
+                body('description'),
+                body('rating')
                 
             ]
         }
+        
+        
 
-        case 'update': {
-            return [
-                body('productid').isString().notEmpty(),
-                body('deacription').isString().notEmpty(),
-                body('rating').isString()
-            ]
-        }
+       
 
     }
 }
+
 
 
 exports.create = async (req, res) => {
@@ -48,10 +46,10 @@ exports.create = async (req, res) => {
     }
 };
 
-exports.getAll = async (req, res) => {
+exports.getAllByProduct = async (req, res) => {
     try {
 
-        const reviews = await ReviewService.findAll();
+        const reviews = await ReviewService.findAllByProduct(req.params.productId);
 
         res.send(reviews);
     } catch (error) {
@@ -70,25 +68,25 @@ exports.getById = async (req, res) => {
     }
 };
 
-exports.update = async (req, res) => {
-    try {
-        const errors = validationResult(req);
+// exports.update = async (req, res) => {
+//     try {
+//         const errors = validationResult(req);
 
-        if (!errors.isEmpty()) {
-            res.status(400).json({ errors: errors.array() });
-            return;
-        }
+//         if (!errors.isEmpty()) {
+//             res.status(400).json({ errors: errors.array() });
+//             return;
+//         }
 
-        const validatedRequest = req.body
+//         const validatedRequest = req.body
 
-        const review = await ReviewService.update(req.params.id, validatedRequest);
+//         const review = await ReviewService.update(req.params.id, validatedRequest);
 
-        res.send(review);
-    } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
-    }
-};
+//         res.send(review);
+//     } catch (error) {
+//         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+//         res.status(500).json({ message: error.message })
+//     }
+// };
 
 exports.delete = async (req, res) => {
     try {
