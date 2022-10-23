@@ -40,10 +40,11 @@ require("./app/routes/merchant.routes.js")(app);
 
 require("./app/routes/product.routes.js")(app);
 
-// require("./app/routes/review.routes.js")(app);
+require("./app/routes/review.routes.js")(app);
 
 require("./app/routes/faq.routes.js")(app);
 require("./app/routes/rewards.routes.js")(app);
+require("./app/routes/offers.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8000;

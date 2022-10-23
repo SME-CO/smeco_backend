@@ -8,9 +8,7 @@ const ProductService = function () { };
 
 ProductService.create = async (validatedRequest) => {
     try {
-
         
-
         const [product] = await Product.create({
             productName: validatedRequest.productName,
             merchantId: 1,
@@ -53,11 +51,25 @@ ProductService.findById = async (id) => {
     }
 }
 
+
+ProductService.findByMerchant = async (id) => {
+    try {
+
+        const products = await Product.findAll(
+            { where: { merchantId: id } }
+        );
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
 ProductService.findByCategory = async (category) => {
     try {
 
         const products = await Product.findAll(
-            { where: { catagory: category } }
+            { where: { category: category } }
         );
 
         return products;
