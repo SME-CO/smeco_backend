@@ -94,6 +94,20 @@ exports.getByCategory = async (req, res) => {
     }
 };
 
+exports.checkout = async (req, res) => {
+    try {
+
+        const validatedRequest = req.body
+
+        const product = await ProductService.createPurchase(validatedRequest);
+
+        res.send(product);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
 exports.update = async (req, res) => {
     try {
         const errors = validationResult(req);

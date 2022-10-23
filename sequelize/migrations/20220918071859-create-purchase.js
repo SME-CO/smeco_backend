@@ -11,6 +11,9 @@ module.exports = {
       customerId: {
         type: Sequelize.INTEGER
       },
+      customerName : {
+        type: Sequelize.STRING
+      },
       merchantId: {
         type: Sequelize.INTEGER
       },

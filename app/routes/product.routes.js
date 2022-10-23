@@ -13,6 +13,8 @@ module.exports = app => {
   
     router.get("/:id", productController.getById);
 
+    router.post("/purchase/checkout", productController.checkout);
+
     router.get("/merchant/:id", productController.getByMerchant);
   
     router.put("/:id", productController.validate('update'), productController.update);
