@@ -140,7 +140,7 @@ exports.login = async (req, res) => {
 
                 let responseData = {
                     'token': jwt.sign(plan_admin_object, process.env.SECRET),
-                    'user': { firstName: "Smeco Admin" },
+                    'user': { firstName: "Smeco Admin", id: 2 },
                     'role': 'admin'
                 }
                 res.send(responseData);

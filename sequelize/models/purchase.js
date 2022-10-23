@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Purchase.init({
     customerId: DataTypes.INTEGER,
-    merchantId: DataTypes.STRING,
+    merchantId: DataTypes.INTEGER,
+    customerName: DataTypes.STRING,
+    merchantName: DataTypes.STRING,
     purchaseDate: DataTypes.DATE,
     totalAmount: DataTypes.INTEGER
   }, {

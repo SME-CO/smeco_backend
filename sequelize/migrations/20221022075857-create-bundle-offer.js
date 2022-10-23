@@ -1,25 +1,24 @@
 'use strict';
-
-const { sequelize } = require("../models");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Review', {
+    await queryInterface.createTable('BundleOffers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      
-      productid:{
-        type: sequelize.INTEGER
-      },
-      description: {
+      name: {
         type: Sequelize.STRING
       },
-      rating: {
-        type: Sequelize.STRING
+      price: {
+        type: Sequelize.INTEGER
+      },
+      offerId: {
+        type: Sequelize.INTEGER
+      },
+      merchantId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Review');
+    await queryInterface.dropTable('BundleOffers');
   }
 };

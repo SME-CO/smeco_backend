@@ -1,12 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./sequelize/models");
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5000"]
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:5000",
+  ],
 };
 
 app.use(cors(corsOptions));
@@ -15,9 +20,9 @@ app.use(cors(corsOptions));
 app.use(express.json()); /* bodyParser.json() is deprecated */
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true })); /* bodyParser.urlencoded() is deprecated */
-
-
+app.use(
+  express.urlencoded({ extended: true })
+); /* bodyParser.urlencoded() is deprecated */
 
 //simple route
 app.get("/", (req, res) => {
@@ -44,6 +49,8 @@ require("./app/routes/notification.routes.js")(app);
 
 
 
+require("./app/routes/rewards.routes.js")(app);
+require("./app/routes/offers.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8000;
@@ -51,5 +58,5 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}.`);
   await sequelize.sync();
-  console.log('Database Connected!')
+  console.log("Database Connected!");
 });
