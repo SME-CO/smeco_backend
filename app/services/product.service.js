@@ -1,4 +1,4 @@
-const { sequelize, Product } = require('../../sequelize/models');
+const { sequelize, Product,  } = require('../../sequelize/models');
 const ServiceLayerError = require('../services/Exceptions/service.exceptions.js')
 //const smsAPI = require('../external_services/smsAPI');
 
@@ -21,6 +21,17 @@ ProductService.create = async (validatedRequest) => {
 
         await product.save();
         return product
+    } catch (err) {
+        throw err
+    }
+}
+
+ProductService.createPurchase = async (validatedRequest) => {
+    try {
+
+        // const purchase = await 
+        
+       
     } catch (err) {
         throw err
     }
