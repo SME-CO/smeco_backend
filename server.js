@@ -36,9 +36,11 @@ require("./app/routes/merchant.routes.js")(app);
 
 require("./app/routes/product.routes.js")(app);
 
-// require("./app/routes/review.routes.js")(app);
+require("./app/routes/review.routes.js")(app);
 
 require("./app/routes/faq.routes.js")(app);
+
+require("./app/routes/notification.routes.js")(app);
 
 
 

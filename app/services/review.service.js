@@ -10,7 +10,7 @@ ReviewService.create = async (validatedRequest) => {
         
 
         const review = await Review.create({
-            //priductid: productId,
+            priductid: productId,
             description: validatedRequest.description,
             reting: validatedRequest.reting
             

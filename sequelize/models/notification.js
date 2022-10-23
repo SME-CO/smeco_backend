@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Notification.init({
     title: DataTypes.STRING,
+    productid:DataTypes.INTEGER,
     message: DataTypes.STRING,
     link: DataTypes.STRING,
+    imageUrl:DataTypes.STRING,
     status: DataTypes.STRING
   }, {
     sequelize,
