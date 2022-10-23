@@ -51,6 +51,20 @@ ProductService.findById = async (id) => {
     }
 }
 
+
+ProductService.findByMerchant = async (id) => {
+    try {
+
+        const products = await Product.findAll(
+            { where: { merchantId: id } }
+        );
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
 ProductService.findByCategory = async (category) => {
     try {
 

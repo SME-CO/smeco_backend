@@ -12,6 +12,8 @@ module.exports = app => {
     router.get("/categories/:category", productController.getByCategory);
   
     router.get("/:id", productController.getById);
+
+    router.get("/merchant/:id", productController.getByMerchant);
   
     router.put("/:id", productController.validate('update'), productController.update);
   

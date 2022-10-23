@@ -74,6 +74,16 @@ exports.getById = async (req, res) => {
     }
 };
 
+exports.getByMerchant = async (req, res) => {
+    try {
+        const products = await ProductService.findByMerchant(req.params.id)
+        res.send(products);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
 exports.getByCategory = async (req, res) => {
     try {
         const product = await ProductService.findByCategory(req.params.category)
