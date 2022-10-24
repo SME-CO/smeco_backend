@@ -1,4 +1,7 @@
 'use strict';
+
+const { sequelize } = require("../models");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Notifications', {
@@ -8,6 +11,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      productid:{
+        type: sequelize.INTEGER
+      },
       title: {
         type: Sequelize.STRING
       },
@@ -16,6 +22,9 @@ module.exports = {
       },
       link: {
         type: Sequelize.STRING
+      },
+      imageUrl:{
+        type: sequelize.STRING
       },
       status: {
         type: Sequelize.STRING

@@ -10,6 +10,8 @@ module.exports = app => {
     router.get("/", merchantController.getAll);
   
     router.get("/:id", merchantController.getById);
+    
+    router.get("/shopAddress/:Location", merchantController.getByLocation);
   
     router.put("/:id", merchantController.validate('update'), merchantController.update);
   
