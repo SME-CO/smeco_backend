@@ -138,6 +138,23 @@ MerchantService.delete = async (id) => {
         throw err
     }
 }
+MerchantService.findByLocation = async (Location) => {
+    try {
+
+        const merchant = await Merchant.findAll(
+            { where: { shopAddress: Location} }
+        );
+
+    
+        
+      
+        
+
+        return merchant;
+    } catch (error) {
+        throw error;
+    }
+}
 
 MerchantService.addCoverImageUrl = async (id, filename) => {
     try{

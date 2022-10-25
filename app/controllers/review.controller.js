@@ -9,7 +9,7 @@ exports.validate = (method) => {
     switch (method) {
         case 'create': {
             return [
-                body('customerId'),
+              
                 body('productid'),
                 body('description'),
                 body('rating')

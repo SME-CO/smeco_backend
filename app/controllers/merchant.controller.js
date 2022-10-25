@@ -179,3 +179,13 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
+
+exports.getByLocation = async (req, res) => {
+    try {
+        const merchant = await MerchantService.findByLocation(req.params.Location)
+        res.send(merchant);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
