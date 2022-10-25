@@ -6,6 +6,8 @@ module.exports = app => {
   
     // Create a new product
     router.post("/", productController.validate('create'), productController.create);
+
+    router.post("/upload/image/:productId", productController.uploadImage);
   
     router.get("/", productController.getAll);
 

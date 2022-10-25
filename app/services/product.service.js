@@ -63,6 +63,25 @@ ProductService.createPurchase = async (validatedRequest) => {
     }
 }
 
+ProductService.addImageUrl = async (id, filename) => {
+    try{
+        const product = await ProductService.findById(id);
+
+        if (!product) {
+            throw new ServiceLayerError("Object Not Found");
+        }
+        
+        product.set({
+           image : filename
+        })
+
+        await product.save();
+        return product;
+    }catch(err){
+        throw err;
+    }
+}
+
 ProductService.findAll = async () => {
     try {
 

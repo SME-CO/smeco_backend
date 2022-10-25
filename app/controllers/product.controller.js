@@ -150,8 +150,8 @@ exports.uploadImage = async (req, res) => {
             if (err) {
                 res.status(500).send({ message: "File upload failed", code: 200 });
             }
-            const merchantId = req.params.merchantId;
-            const response = MerchantService.addCoverImageUrl(merchantId, filename);
+            const productId = req.params.productId;
+            const response = ProductService.addImageUrl(productId, filename);
 
             res.status(200).send({ message: "File Uploaded", code: 200 });
         });
