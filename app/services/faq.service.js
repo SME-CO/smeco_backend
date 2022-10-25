@@ -1,60 +1,69 @@
-const { sequelize, Faq } = require('../../sequelize/models');
-const ServiceLayerError = require('../services/Exceptions/service.exceptions.js')
+const { sequelize, Faq } = require("../../sequelize/models");
+const ServiceLayerError = require("../services/Exceptions/service.exceptions.js");
 
-
-const FaqService = function () { };
-
+const FaqService = function () {};
 
 FaqService.create = async (validatedRequest) => {
-    try {
+  try {
+    const FaqExists = await Faq.findOne({
+      where: { message: validatedRequest.message },
+    });
 
-        const FaqExists = await Faq.findOne(
-            { where: { message: validatedRequest.message } }
-        );
-        
-
-        if (FaqExists) {
-            throw new ServiceLayerError("This question already exists");
-        }
-
-    
-        const faq = await Faq.create({
-            message: validatedRequest.message
-        });
-
-
-        await faq.save();
-        return faq
-    } catch (err) {
-        throw err
+    if (FaqExists) {
+      throw new ServiceLayerError("This question already exists");
     }
-}
 
+    const faq = await Faq.create({
+      message: validatedRequest.message,
+    });
+
+    await faq.save();
+    return faq;
+  } catch (err) {
+    throw err;
+  }
+};
 
 FaqService.findAll = async () => {
-    try {
-
-        const faq = await Faq.findAll();
-        return faq;
-    } catch (err) {
-        throw err
-    }
-}
+  try {
+    const faq = await Faq.findAll();
+    return faq;
+  } catch (err) {
+    throw err;
+  }
+};
 
 FaqService.findById = async (id) => {
-    try {
+  try {
+    const faq = await Faq.findByPk(id);
 
-        const faq = await Faq.findByPk(id);
-
-        if (!faq) {
-            throw new ServiceLayerError("Object Not Found");
-        }
-
-        return faq;
-    } catch (error) {
-        throw error;
+    if (!faq) {
+      throw new ServiceLayerError("Object Not Found");
     }
-}
 
+    return faq;
+  } catch (error) {
+    throw error;
+  }
+};
+
+FaqService.update = async (id, validatedRequest) => {
+  try {
+    const faq = await Faq.findById(id);
+
+    if (!faq) {
+      throw new ServiceLayerError("Object Not Found");
+    }
+
+    faq.set({
+      answer: validatedRequest.answer,
+    });
+
+    await faq.save();
+    return faq;
+  } catch (err) {
+    throw err;
+  }
+};
 
 module.exports = FaqService;

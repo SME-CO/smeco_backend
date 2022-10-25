@@ -94,6 +94,16 @@ exports.getByCategory = async (req, res) => {
     }
 };
 
+exports.getByCategoryAndMerchant = async (req, res) => {
+    try {
+        const product = await ProductService.findByCategoryAndMerchant(req.params.category, req.params.merchant)
+        res.send(product);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
+        res.status(500).json({ message: error.message })
+    }
+};
+
 exports.checkout = async (req, res) => {
     try {
 
@@ -125,6 +135,29 @@ exports.update = async (req, res) => {
     } catch (error) {
         if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
         res.status(500).json({ message: error.message })
+    }
+};
+
+exports.uploadImage = async (req, res) => {
+    try {
+        const newpath = 'D:/smeco_customer_app/public/discount/';
+        const file = req.files.file;
+        const filename = new Date().valueOf() + file.name;
+
+        console.log(newpath, filename);
+
+        file.mv(`${newpath}${filename}`, (err) => {
+            if (err) {
+                res.status(500).send({ message: "File upload failed", code: 200 });
+            }
+            const merchantId = req.params.merchantId;
+            const response = MerchantService.addCoverImageUrl(merchantId, filename);
+
+            res.status(200).send({ message: "File Uploaded", code: 200 });
+        });
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 

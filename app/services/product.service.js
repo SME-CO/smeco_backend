@@ -115,6 +115,19 @@ ProductService.findByCategory = async (category) => {
     }
 }
 
+ProductService.findByCategoryAndMerchant = async (category, merchant) => {
+    try {
+
+        const products = await Product.findAll(
+            { where: { category: category, merchantId: merchant } }
+        );
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
 ProductService.update = async (id, validatedRequest) => {
     try {
 

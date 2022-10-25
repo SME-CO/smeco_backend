@@ -6,6 +6,8 @@ module.exports = app => {
   
     // Create a new Merchant
     router.post("/", merchantController.validate('create'), merchantController.create);
+
+    router.post("/upload/cover/:merchantId", merchantController.uploadCover);
   
     router.get("/", merchantController.getAll);
   
