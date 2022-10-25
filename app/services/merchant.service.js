@@ -156,4 +156,23 @@ MerchantService.findByLocation = async (Location) => {
     }
 }
 
+MerchantService.addCoverImageUrl = async (id, filename) => {
+    try{
+        const merchant = await MerchantService.findById(id);
+
+        if (!merchant) {
+            throw new ServiceLayerError("Object Not Found");
+        }
+        
+        merchant.set({
+           shopImage : filename
+        })
+
+        await merchant.save();
+        return merchant;
+    }catch(err){
+        throw err;
+    }
+}
+
 module.exports = MerchantService;

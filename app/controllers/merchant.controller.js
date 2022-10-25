@@ -65,6 +65,29 @@ exports.create = async (req, res) => {
     }
 };
 
+exports.uploadCover = async (req, res) => {
+    try {
+        const newpath = 'D:/smeco_customer_app/public/shop/';
+        const file = req.files.file;
+        const filename = new Date().valueOf() + file.name;
+
+        console.log(newpath, filename);
+
+        file.mv(`${newpath}${filename}`, (err) => {
+            if (err) {
+                res.status(500).send({ message: "File upload failed", code: 200 });
+            }
+            const merchantId = req.params.merchantId;
+            const response = MerchantService.addCoverImageUrl(merchantId, filename);
+
+            res.status(200).send({ message: "File Uploaded", code: 200 });
+        });
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
+    }
+};
+
 
 exports.getAll = async (req, res) => {
     try {

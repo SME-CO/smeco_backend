@@ -10,6 +10,8 @@ module.exports = app => {
     router.get("/", productController.getAll);
 
     router.get("/categories/:category", productController.getByCategory);
+
+    router.get("/categories/:category/:merchant", productController.getByCategoryAndMerchant);
   
     router.get("/:id", productController.getById);
 
