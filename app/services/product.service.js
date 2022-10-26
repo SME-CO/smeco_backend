@@ -9,12 +9,20 @@ const ProductService = function () { };
 ProductService.create = async (validatedRequest) => {
     try {
 
-        const [product] = await Product.create({
+        const sameName = await Product.findOne(
+            { where: { productName: validatedRequest.productName, merchantId:validatedRequest.merchantId } }
+        );
+
+        if(sameName){
+            throw new ServiceLayerError("Product with same name already exists");
+        }
+
+        const product = await Product.create({
             productName: validatedRequest.productName,
-            merchantId: 1,
+            merchantId: validatedRequest.merchantId,
             image: validatedRequest.image,
             price: validatedRequest.price,
-            catagory: validatedRequest.catagory,
+            category: validatedRequest.category,
             offers: validatedRequest.offers
         });
 
@@ -49,6 +57,9 @@ ProductService.createPurchase = async (validatedRequest) => {
                 customerId: validatedRequest.customerId,
                 quantity: validatedRequest.cart[i].quantity,
                 productName: validatedRequest.cart[i].product.productName,
+                image: validatedRequest.cart[i].product.image,
+                category: validatedRequest.cart[i].product.category,
+                merchantName: merchant.shopName,
                 amount: validatedRequest.cart[i].total,
                 unitPrice: validatedRequest.cart[i].unitPrice
             });
@@ -89,6 +100,22 @@ ProductService.findAll = async () => {
         return products;
     } catch (err) {
         throw err
+    }
+}
+
+ProductService.findAllPurchases = async (customerId) => {
+    try {
+
+        const products = await PurchaseProduct.findAll({ 
+            where: { customerId: customerId }, order: [
+                ['createdAt', 'DESC'],
+               
+            ], }
+        );
+
+        return products;
+    } catch (error) {
+        throw error;
     }
 }
 

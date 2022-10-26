@@ -24,6 +24,8 @@ module.exports = app => {
     router.put("/:id", productController.validate('update'), productController.update);
   
     router.delete("/:id", productController.delete);
+
+    router.get("/purchased/:customerId", productController.getAllPurchased);
   
     //router.post("/sendOTP", productController.validate('sendOTP'), productController.sendOTP);
   

@@ -17,7 +17,7 @@ OfferService.createBuyGet = async (validatedRequest) => {
         }
 
         const offer = await Offer.create({
-            name: `Buy ${validatedRequest.buyQuantity} and Get ${validatedRequest.getQuantity}`,
+            name: `Buy ${validatedRequest.buyQuantity} and Get ${validatedRequest.getQuantity} Free!`,
             type: 'buyGet',
             merchantID: validatedRequest.merchantId
         })
@@ -32,6 +32,8 @@ OfferService.createBuyGet = async (validatedRequest) => {
                 buyQuantity: validatedRequest.buyQuantity,
                 getQuantity: validatedRequest.getQuantity,
                 merchantID: validatedRequest.merchantId,
+                productName: product.productName,
+                price: product.price,
                 offerId: offer.id,
                 productId: validatedRequest.productId
             })
@@ -59,10 +61,11 @@ OfferService.createBundle = async (validatedRequest) => {
             name: validatedRequest.name,
             price: validatedRequest.price,
             merchantId: validatedRequest.merchantId,
-            offerId: offer.id
+            offerId: offer.id,
+            // image: validatedRequest.image
         });
 
-        await bundleOffer.save(); 
+        await bundleOffer.save();
 
         for (let i = 0; i < validatedRequest.productIds.length; i++) {
 
@@ -81,14 +84,34 @@ OfferService.createBundle = async (validatedRequest) => {
     }
 }
 
-OfferService.findAllBuyGet = async () => {
+
+
+OfferService.findAllBuyGetByMerchant = async (merchantId) => {
     try {
-        const offers = await BuyGetOffer.findAll();
+        const offers = await BuyGetOffer.findAll(
+            { where: { merchantId: merchantId } }
+        );
+
         return offers;
     } catch (err) {
         throw err
     }
 }
+
+OfferService.findAllBundleByMerchant = async (merchantId) => {
+    try {
+        const offers = await BundleOffer.findAll(
+            { where: { merchantId: merchantId } }
+        );
+
+
+        return offers;
+    } catch (err) {
+        throw err
+    }
+}
+
+
 
 OfferService.findById = async (id) => {
     try {

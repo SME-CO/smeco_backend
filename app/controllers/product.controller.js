@@ -47,8 +47,8 @@ exports.create = async (req, res) => {
 
         res.send(product);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -59,8 +59,8 @@ exports.getAll = async (req, res) => {
 
         res.send(products);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -69,8 +69,8 @@ exports.getById = async (req, res) => {
         const product = await ProductService.findById(req.params.id)
         res.send(product);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -79,8 +79,8 @@ exports.getByMerchant = async (req, res) => {
         const products = await ProductService.findByMerchant(req.params.id)
         res.send(products);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -89,8 +89,8 @@ exports.getByCategory = async (req, res) => {
         const product = await ProductService.findByCategory(req.params.category)
         res.send(product);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -99,8 +99,8 @@ exports.getByCategoryAndMerchant = async (req, res) => {
         const product = await ProductService.findByCategoryAndMerchant(req.params.category, req.params.merchant)
         res.send(product);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -113,8 +113,8 @@ exports.checkout = async (req, res) => {
 
         res.send(product);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -133,8 +133,8 @@ exports.update = async (req, res) => {
 
         res.send(product);
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 
@@ -161,6 +161,20 @@ exports.uploadImage = async (req, res) => {
     }
 };
 
+exports.getAllPurchased = async (req, res) => {
+    try {
+
+        const customerId = req.params.customerId;
+
+        const products = await ProductService.findAllPurchases(customerId);
+
+        res.send(products);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
+    }
+};
+
 exports.delete = async (req, res) => {
     try {
 
@@ -168,8 +182,8 @@ exports.delete = async (req, res) => {
 
         res.status(200).json({ message: "Successfully Deleted" });
     } catch (error) {
-        if (error instanceof ServiceLayerError) res.status(400).json({ message: error.message })
-        res.status(500).json({ message: error.message })
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
     }
 };
 

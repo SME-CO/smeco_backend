@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       productId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       customerId: {
         type: Sequelize.INTEGER
@@ -21,6 +21,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       productName: {
+        type: Sequelize.STRING
+      },
+      image: {
+        type: Sequelize.STRING
+      },
+      category: {
+        type: Sequelize.STRING
+      },
+      merchantName: {
         type: Sequelize.STRING
       },
       type: {

@@ -1,8 +1,8 @@
 var axios = require('axios');
 
 exports.sendSMS = async (to, message) => {
-  const userId = 104555;
-  const apiKey = 'oi7jg4s0dv0jcs5sb';
+  const userId = 104663;
+  const apiKey = 'nuakghkp6jyx0kdii';
   const senderId = 'ozoneDEMO';
 
   const URL = `http://send.ozonedesk.com/api/v2/send.php?user_id=${userId}&api_key=${apiKey}&sender_id=${senderId}&to=${to}&message=${message}`;

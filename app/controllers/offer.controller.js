@@ -28,6 +28,32 @@ exports.createBundle = async (req, res) => {
     }
 };
 
+exports.getBuyGetByMerchant = async (req, res) => {
+    try {
+        const merchantId = req.params.merchantId;
+
+        const offer = await OfferService.findAllBuyGetByMerchant(merchantId);
+
+        res.send(offer);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
+    }
+};
+
+exports.getBundleByMerchant = async (req, res) => {
+    try {
+        const merchantId = req.params.merchantId;
+
+        const offer = await OfferService.findAllBundleByMerchant(merchantId);
+
+        res.send(offer);
+    } catch (error) {
+        if (error instanceof ServiceLayerError) res.status(400).json({ error: error, message: error.message, code: 400 })
+        res.status(500).json({ error: error, message: error.message, code: 500 })
+    }
+};
+
 exports.getAll = async (req, res) => {
     try {
         const customers = await OfferService.findAll();

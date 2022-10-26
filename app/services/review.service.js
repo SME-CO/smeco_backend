@@ -7,13 +7,13 @@ const ReviewService = function () { };
 ReviewService.create = async (validatedRequest) => {
     try {
 
-        
+
 
         const review = await Review.create({
-            productid:1,
+            productId: validatedRequest.productId,
             description: validatedRequest.description,
             rating: validatedRequest.rating
-            
+
         });
 
 
@@ -26,9 +26,9 @@ ReviewService.create = async (validatedRequest) => {
 
 ReviewService.findAllByProduct = async (productId) => {
     try {
-         const reviews = await Review.findAll(
-            { where: { productid: productId } }
-         );
+        const reviews = await Review.findAll(
+            { where: { productId: productId } }
+        );
 
         //const reviews = await Review.findAll(id);
         return reviews;
